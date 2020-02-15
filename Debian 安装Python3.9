@@ -22,16 +22,8 @@ autoremove——告诉 apt-get 我们所要做的操作是移除软件
 3. mv Python-3.9.0a3 python3.9 #改名安装包
 4. vi /root/python3.9/Modules/Setup  
 
-  #修改结果如下：
- # Socket module helper for socket(2)
- _socket socketmodule.c timemodule.c
+  #修改
 
- # Socket module helper for SSL support; you must comment out the other
- # socket line above, and possibly edit the SSL variable:
- SSL=/usr/local/ssl
- _ssl _ssl.c \
- -DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
- -L$(SSL)/lib -lssl -lcrypto
 
 5、编译安装包，指定安装目录，进入python3.9目录，执行
  cd /root/python3.9
@@ -63,6 +55,6 @@ ln -s /usr/local/lib/python2.7/dist-packages/pip /usr/local/bin/pip2 #PIP2指向
 python3 -V 
 pip -V
 
-14 安装完成了，可以用python3和pip3了
+14 安装完成了，可以用python3和pip了
 
 
