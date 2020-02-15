@@ -1,0 +1,64 @@
+
+Debian系统安装python和PIP
+
+
+0. 删除老的PYTHON3, sudo apt-get autoremove --purge python3 安装依赖 sudo apt-get install libssl-dev 
+补充
+sudo apt-get autoremove --purge xxx
+命令&参数解释：
+sudo apt-get autoremove --purge
+sudo——获取 root 权限
+apt-get——执行安装卸载功能的软件
+autoremove——告诉 apt-get 我们所要做的操作是移除软件
+–purge——注意这前面是两个短划线，这个参数是告诉他们要完整的干净的彻底的移除
+
+1. wget https://www.python.org/ftp/python/3.9.0/Python-3.9.0a3.tgz  #下载安装包
+
+2. tar -zxvf Python-3.9.0a3.tgz  #解压安装包
+3. mv Python-3.9.0a3 python3.9 #改名安装包
+4. vi /root/python3.9/Modules/Setup  
+
+  #修改结果如下：
+ # Socket module helper for socket(2)
+ _socket socketmodule.c timemodule.c
+
+ # Socket module helper for SSL support; you must comment out the other
+ # socket line above, and possibly edit the SSL variable:
+ SSL=/usr/local/ssl
+ _ssl _ssl.c \
+ -DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
+ -L$(SSL)/lib -lssl -lcrypto
+
+5、编译安装包，指定安装目录，进入python3.9目录，执行
+ cd /root/python3.9
+ ./configure --with-ssl-default-suites --prefix=/root/python3.9  # 目录/root/python3.9可以根据自己的喜好随意选择，
+
+6.确认无误后，进入安装目录，执行编译和安装
+ make install
+ 
+7。以上步骤执行完成，python3基本安装完成；因为系统自带的是python2.7，直接执行python命令，会进入默认的python2.7的环境
+
+8.新建软连接，指向新安装的python3
+ln -s /root/python3.9/bin/python3.9 /usr/bin/python3
+
+
+9.查看ssl是否安装成功python3>> import ssl
+
+10. Python3是自带了pip，进入python3.9的bin目录下进行查看你所安装的Python版本是否自带pip
+ls
+
+11. 安装好Python后直接创建一个软连接指向python的pip就可以了，一定要指向pip3
+rm -f /usr/local/bin/pip #删掉之前的指向的Python2
+ln -s /root/python3.9/bin/pip3 /usr/local/bin/pip   #PIP指向新的Python3 PIP3
+
+ln -s /usr/local/lib/python2.7/dist-packages/pip /usr/local/bin/pip2 #PIP2指向旧的PYHTON2
+
+12 执行pip install --upgrade pip #更新
+
+13.查看版本 
+python3 -V 
+pip -V
+
+14 安装完成了，可以用python3和pip3了
+
+
