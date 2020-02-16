@@ -1,2 +1,5 @@
 感谢大佬的视频和资料，总结一下
-BBR是加速TCP的，KCPTUN是将将TCP打包成KCP，UDPSPEED是加速UDP的， UDP2RAW是将UDP伪装成TCP的
+BBR是加速TCP的，https://github.com/google/bbr
+KCPTUN是将将打包成KCP，再通过UDP转发 https://github.com/xtaci/kcptun
+UDPSPEED是加速UDP的， https://github.com/wangyu-/UDPspeeder
+DP2RAW是将UDP伪装成TCP的 https://github.com/wangyu-/udp2raw-tunnel
