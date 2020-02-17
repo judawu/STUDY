@@ -1,0 +1,94 @@
+nux 的交互式 Shell 与 Shell 脚本存在一定的差异，主要是由于后者存在一个独立的运行进程，因此在获取进程 pid 上二者也有所区别。
+
+交互式 Bash Shell 获取进程 pid
+在已知进程名(name)的前提下，交互式 Shell 获取进程 pid 有很多种方法，典型的通过 grep 获取 pid 的方法为（这里添加 -v grep是为了避免匹配到 grep 进程）：
+
+ps -ef | grep "name" | grep -v grep | awk '{print $2}'
+1
+或者不使用 grep（这里名称首字母加[]的目的是为了避免匹配到 awk 自身的进程）：
+
+ps -ef | awk '/[n]ame/{print $2}'
+1
+如果只使用 x 参数的话则 pid 应该位于第一位：
+
+ps x | awk '/[n]ame/{print $1}'
+1
+最简单的方法是使用 pgrep：
+
+pgrep -f name
+1
+如果需要查找到 pid 之后 kill 掉该进程，还可以使用 pkill：
+
+pkill -f name
+1
+如果是可执行程序的话，可以直接使用 pidof
+
+pidof name
+1
+Bash Shell 脚本获取进程 pid
+根据进程名获取进程 pid
+在使用 Shell 脚本获取进程 pid 时，如果直接使用上述命令，会出现多个 pid 结果，例如
+
+#! /bin/bash
+# process-monitor.sh
+process=$1
+pid=$(ps x | grep $process | grep -v grep | awk '{print $1}')
+echo $pid
+1
+2
+3
+4
+5
+执行 process-monitor.sh 会出现多个结果：
+
+$> sh process-monitor.sh
+3036  3098  3099
+1
+2
+进一步排查可以发现，多出来的几个进程实际上是子 Shell 的（临时）进程：
+
+root      3036  2905  0 09:03 pts/1    00:00:45 /usr/java/jdk1.7.0_71/bin/java ...name
+root      4522  2905  0 16:12 pts/1    00:00:00 sh process-monitor.sh name
+root      4523  4522  0 16:12 pts/1    00:00:00 sh process-monitor.sh name
+1
+2
+3
+其中 3036 是需要查找的进程pid，而 4522、4523 就是子 Shell 的 pid。 为了避免这种情况，需要进一步明确查找条件，考虑到所要查找的是 Java 程序，就可以通过 Java 的关键字进行匹配：
+
+#! /bin/bash
+# process-monitor.sh
+process=$1
+pid=$(ps -ef | grep $process | grep '/bin/java' | grep -v grep | awk '{print $2}')
+echo $pid
+1
+2
+3
+4
+5
+获取 Shell 脚本自身进程 pid
+这里涉及两个指令：
+1. $$ ：当前 Shell 进程的 pid
+2. 2. $! ：上一个后台进程的 pid 可以使用这两个指令来获取相应的进程 pid。例如，如果需要获取某个正在执行的进程的 pid（并写入指定的文件）：
+
+myCommand && pid=$!
+myCommand & echo $! >/path/to/pid.file
+1
+2
+注意，在脚本中执行 $! 只会显示子 Shell 的后台进程 pid，如果子 Shell 先前没有启动后台进程，则没有输出。
+
+查看指定进程是否存在
+在获取到 pid 之后，还可以根据 pid 查看对应的进程是否存在（运行），这个方法也可以用于 kill 指定的进程。
+
+if ps -p $PID > /dev/null
+then
+   echo "$PID is running"
+   # Do something knowing the pid exists, i.e. the process with $PID is running
+fi
+1
+2
+3
+4
+5
+本文转载自：https://www.cnblogs.com/lovychen/p/6211209.html
+
+
