@@ -1,0 +1,18 @@
+
+先共享两个链接
+
+https://10101.io/2018/11/10/wireguard
+https://github.com/xiaoming2028/FreePAC/
+https://10101.io/2018/11/10/wireguard
+
+
+
+总结一下失败的原因吧，按照官方步骤也是可以连的，我失败是在客户端这里设置的DNS为服务器的内网的DNS，需要用公网的DNS，这里我设置了8.8.8.8，就好了
+[Interface]
+PrivateKey = 
+Address = 172.16.20.2/32
+DNS = 8.8.8.8
+
+安装我是用的网上找到的一键脚本，配置就是参照这两个教材慢慢折腾的
+
+
