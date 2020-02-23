@@ -1,0 +1,58 @@
+
+
+Last login: Sun Feb  9 12:34:15 CST 2020 on pts/0
+Linux pve 5.3.10-1-pve #1 SMP PVE 5.3.10-1 (Thu, 14 Nov 2019 10:43:13 +0100) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+root@pve:~# fdisk -l
+Disk /dev/sda: 14.9 GiB, 16013942784 bytes, 31277232 sectors
+Disk model: CNCTION-SSD16G  
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 56A3ADF4-BD9F-4AD4-A590-2DEDEF4B105A
+
+Device       Start      End  Sectors  Size Type
+/dev/sda1       34     2047     2014 1007K BIOS boot
+/dev/sda2     2048  1050623  1048576  512M EFI System
+/dev/sda3  1050624 31277198 30226575 14.4G Linux LVM
+
+
+Disk /dev/mapper/pve-swap: 1.8 GiB, 1879048192 bytes, 3670016 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/pve-root: 3.5 GiB, 3758096384 bytes, 7340032 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/pve-vm--777--disk--0: 340 MiB, 356515840 bytes, 696320 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 65536 bytes / 65536 bytes
+Disklabel type: dos
+Disk identifier: 0x30f2001c
+
+Device                                 Boot Start    End Sectors  Size Id Type
+/dev/mapper/pve-vm--777--disk--0-part1 *      512  33279   32768   16M 83 Linux
+/dev/mapper/pve-vm--777--disk--0-part2      33792 689151  655360  320M 83 Linux
+root@pve:~# lvextend -L +2G /dev/mapper/pve-root
+  Insufficient free space: 512 extents needed, but only 448 available
+root@pve:~# lvextend -L +1G /dev/mapper/pve-root
+  Size of logical volume pve/root changed from 3.50 GiB (896 extents) to 4.50 GiB (1152 extents).
+  Logical volume pve/root successfully resized.
+root@pve:~# resize2fs /dev/mapper/pve-root
+resize2fs 1.44.5 (15-Dec-2018)
+Filesystem at /dev/mapper/pve-root is mounted on /; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 1
+The filesystem on /dev/mapper/pve-root is now 1179648 (4k) blocks long.
