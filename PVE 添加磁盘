@@ -1,0 +1,5 @@
+查找磁盘ID
+ls -l /dev/disk/by-id/
+
+添加磁盘到虚拟机100
+qm set 100 --sata3  /dev/disk/by-id/-------------
