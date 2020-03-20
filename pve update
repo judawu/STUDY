@@ -1,0 +1,57 @@
+一、集群中每个节点升级到Corosync 3：
+
+集群升级必须先停止HA服务，所以第一条命令必先停止HA，并且2条命令依次执行，如下：
+
+# systemctl stop pve-ha-lrm             #集群中每个节点先运行这个命令，才能运行下一条命令，重要！
+
+# systemctl stop pve-ha-crm
+
+# echo "deb http://download.proxmox.wiki/debian/corosync-3/ stretch main" > /etc/apt/sources.list.d/corosync3.list
+
+# apt update && apt dist-upgrade -y
+
+# pvecm status                                       #查看集群状态，如报错可以不用理会
+
+# systemctl start pve-ha-lrm
+
+# systemctl start pve-ha-crm
+
+二、升级PVE、ceph及Debian（官方建议此步升级前，保证升级节点的VM先迁移出去）
+
+# sed -i 's/stretch/buster/g' /etc/apt/sources.list        #修改debian9.x源为10.0的源（可换国内163的源）
+
+# echo "# deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise" > /etc/apt/sources.list.d/pve-enterprise.list                   #非订阅用户屏蔽企业源
+
+# echo "deb http://download.proxmox.wiki/debian/pve buster pve-no-subscription" > /etc/apt/sources.list.d/pve-install-repo.list                #添加pve安装源
+
+# echo "deb http://download.proxmox. wiki /debian/ceph-luminous buster main" >/etc/apt/sources.list.d/ceph.list
+
+# apt update && apt dist-upgrade -y
+
+所有弹出提示均直接回车即可。
+
+查看版本更新：
+
+# cat /etc/debian_version && uname -r && pveversion
+
+附：Debian 10.x 国内163的源，也可选择阿里云或其它的源：
+
+# cat > /etc/apt/sources.list <<EOF
+
+deb http://mirrors.163.com/debian/ buster main non-free contrib
+
+deb http://mirrors.163.com/debian/ buster-updates main non-free contrib
+
+deb http://mirrors.163.com/debian/ buster-backports main non-free contrib
+
+deb-src http://mirrors.163.com/debian/ buster main non-free contrib
+
+deb-src http://mirrors.163.com/debian/ buster-updates main non-free contrib
+
+deb-src http://mirrors.163.com/debian/ buster-backports main non-free contrib
+
+deb http://mirrors.163.com/debian-security/ buster/updates main non-free contrib
+
+deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free contrib
+
+EOF
