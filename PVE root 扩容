@@ -36,6 +36,16 @@ LVM与虚拟机的关系
 
 http://www.nasyun.com/thread-65453-1-1.html
 
+因为PVE的主要逻辑卷使用了更高级的LVM-THIN模式，反正我是不会。默认分区如下图，local他对应的逻辑卷是pve/root用于存储ISO等，默认不用于虚拟机磁盘（可以修改存储内容，见后文），他是传统的目录结构，你的虚拟机数据都存储于/var/lib/vz，便于管理和理解。Local-lvm对应的逻辑卷是pve/data，默认用于存储虚拟机的磁盘，是LVM-Thin结构，是没有目录结构的，但便于大规模的服务器集合。
+
+1.先移除local-lvm对应的逻辑卷pve/data
+移除指令
+# lvremove pve/data
+执行上面这个指令会再次跟你确认。
+2.对local对应的逻辑卷pve/root进行在线扩容
+# lvextend -l +100%FREE -r pve/root
+
+实际执行后用df -h查看现有空间
 
 Last login: Sun Feb  9 12:34:15 CST 2020 on pts/0
 Linux pve 5.3.10-1-pve #1 SMP PVE 5.3.10-1 (Thu, 14 Nov 2019 10:43:13 +0100) x86_64
