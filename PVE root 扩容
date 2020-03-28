@@ -45,7 +45,12 @@ http://www.nasyun.com/thread-65453-1-1.html
 2.对local对应的逻辑卷pve/root进行在线扩容
 # lvextend -l +100%FREE -r pve/root
 
+
 实际执行后用df -h查看现有空间
+
+3.Web中依次展开数据中心-存储，把local-lvm删除即可。
+
+4.还是在数据中心-存储，编辑local，内容下拉菜单中把所有的内容都选上，以便这个空间可以储存磁盘映像。
 
 Last login: Sun Feb  9 12:34:15 CST 2020 on pts/0
 Linux pve 5.3.10-1-pve #1 SMP PVE 5.3.10-1 (Thu, 14 Nov 2019 10:43:13 +0100) x86_64
