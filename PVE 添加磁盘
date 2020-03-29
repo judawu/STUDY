@@ -51,3 +51,72 @@ echo /dev/sdb1 /mnt/sdb1 ntfs-3g defaults 0 2 >> /etc/fstab
 5、分区速度测试
 hdparm -W 0 /dev/sdb   <--不开启缓存
 dd if=/dev/zero of=/mnt/sdb1/testfile bs=1G count=1 oflag=direct
+
+
+安装一个新硬盘后，
+
+在终端输入，查看硬盘分区：
+
+# ls -al /dev/sd*
+
+当然也可以进入web管理页面，节点 --> 磁盘。
+
+就能看到你新接入的设备名称
+
+使用fdisk 命令给新硬盘分一个区
+
+# fdisk /dev/sdb
+
+硬盘格式化为ext4
+
+# ls -al /dev/sd*
+
+sdb1 就是分出来的新分区，但还没有格式化
+
+# mkfs.ext4 /dev/sdb1 -m0
+
+挂在新硬盘
+
+# mkdir /mnt/sdb1
+
+新增一个文件夹，名称可以自定义。
+
+在 /mnt/sdb1 文件夹下新建一个 images 文件夹
+
+# mkdir /mnt/sdb1/images
+
+用于存放虚拟机，我安装ProXmoX 的硬盘是容量比较小SSD，不够我存放虚拟机，新硬盘是用来专门存放虚拟机用的。
+
+将sdb1挂载到 /mnt/sdb1
+
+# mount /dev/sdb1 /mnt/sdb1
+
+永久挂载
+
+# ls -alF /dev/disk/by-uuid/
+
+记下 sdb1 的那一长串 uuid，我这里是 ##################################
+
+将uuid写入 /etc/fstab 中，以后每次开机就会自动加载新硬盘，并挂载到 /SATA1 目录下。
+
+# pico /etc/fstab
+
+加入两行
+
+UUID=############################   /mnt/sdb1  ext4    defaults 0 2
+
+/mnt/sdb1/images    /var/lib/vz/images     none    bind    0   0
+
+ 
+
+CTRL+X ，然后输入Y，回车保存退出。
+
+查看是否挂载成功
+
+# mount -a
+
+让系统将/etc/fstab的所有内容重新加载，这样不用重启。
+
+# mount -l
+
+添加新的存储
