@@ -1,0 +1,8 @@
+PVE重装后如何把老磁盘里面的虚拟系统移过来？
+首先，需要挂载老的硬盘，挂载通过修改/etc/fstab增加
+UUID=xxx /mnt/sda1 ext4 defaults 0 2  来完成
+
+
+新建一个222的VM,将硬盘都移掉，用mv /etc/pve/qemu-server/222.conf /etc/pve/qemu-server/111.conf来制作一个配置文件，通过修改/etc/pve/qemu-server/111.conf增加这两行把
+efidisk0: sda:111/vm-111-disk-0.qcow2,size=128K
+virtio0: sda:111/vm-111-disk-1.qcow2,size=180G
