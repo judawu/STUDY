@@ -15,7 +15,7 @@ ls /mnt/sda3
 
 
 2. 直接固件更新的方法，上传op.img 到tmp，/tmp是内存目录
-dd if /tmp/upload/op.img of /dev/sda
+dd if=/tmp/upload/op.img of=/dev/sda
 
 2. 用U盘做软路由系统盘
 使用rufus将镜像刻录到U盘
