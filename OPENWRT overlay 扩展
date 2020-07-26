@@ -1,0 +1,13 @@
+fdisk -l
+fdisk /dev/sda
+p
+n
+。。
+mkdir /mnt/sda3
+mkfs.ext4 /dev/sda3
+mount /dev/sda3 /mnt/sda3
+ls /mnt/sda3
+cd /overlay
+cp -r /overlay/* /mnt/sda3
+ls /mnt/sda3
+最后在软件里面挂载一下
