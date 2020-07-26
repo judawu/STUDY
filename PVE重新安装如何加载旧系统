@@ -9,3 +9,9 @@ UUID=xxx /mnt/sda1 ext4 defaults 0 2  来完成
 efidisk0: sda:111/vm-111-disk-0.qcow2,size=128K
 virtio0: sda:111/vm-111-disk-1.qcow2,size=180G
 这样启动111就可以打开windows10
+
+Proxmox VE（以下简称PVE）免费版本，每次登陆都要弹出订阅窗口，
+roxmox.Utils.checked_command(function() {}); // display subscription status
+改成
+ //Proxmox.Utils.checked_command(function() {}); // display subscription status提示没有有效订阅“You do not have a valid subscription for this server. Please visit www.proxmox.com to get a list of available options.”
+修改文件/usr/share/pve-manager/js/pvemanagerlib.js
