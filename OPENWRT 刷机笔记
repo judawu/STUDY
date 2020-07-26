@@ -33,6 +33,12 @@ dd if=/tmp/upload/op.img of=/dev/sda
 重启网络服务
 /etc/init.d/network reload
 
+
+4. 挂载
+ mount /dev/sdb1 /mnt/sdb1
+ umount /dev/sdb1 /mnt/sdb1
+  mount -t ext4 /dev/sdb1 /mnt/sdb1
+
 安装Luci
 
 opkg update
