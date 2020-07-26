@@ -19,3 +19,22 @@ dd if /tmp/upload/op.img of /dev/sda
 
 2. 用U盘做软路由系统盘
 使用rufus将镜像刻录到U盘
+
+
+3. 安装时扩展
+去这个网站下载img文件，https://downloads.openwrt.org/releases/ 然后上传到sda 进入cd /mnt/sda1/template/iso
+
+然后改名扩容 qemu-img resize openwrt-19.07.2-x86-64-combined-squashfs.img +250M 然后新建虚拟机，用下面的命令进行硬盘转换后 qm importdisk 555 openwrt-19.07.2-x86-64-combined-ext4.img sda 这样是RAW格式，如果需要其他格式在后面加-format qcow2
+
+也可以用imgkvm进行转换 chmod +x img2kvm（此处按回车，完成第一行指令。注意那个是+ 和小写的x ，千万不要搞错。） ./img2kvm xxxx.img 777 vm-777-disk-0
+
+启动之后用vi /etc/config/network改下IP地址
+
+重启网络服务
+/etc/init.d/network reload
+
+安装Luci
+
+opkg update
+
+opkg install luci opkg install luci luci-i18n-base-zh-cn
