@@ -52,3 +52,7 @@ mkfs.ext4 /dev/sd1
 
 5. SSR神秘代码
 echo 0xDEADBEEF >/etc/config/google_fu_mode
+
+6. AEAD
+lscpu | grep aes
+
