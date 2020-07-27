@@ -50,4 +50,5 @@ mkfs.ext4 /dev/sd1
   mkdir download
   chmod 777 download/
 
-
+5. SSR神秘代码
+echo 0xDEADBEEF >/etc/config/google_fu_mode
