@@ -66,3 +66,9 @@ opkg install luci luci-i18n-chinses
 /etc/init.d/uhttpd start
 
 现在打开你的浏览器、
+
+
+9. opkag 在线不能安装的解决
+https://downloads.openwrt.org/releases/19.07.3/targets/x86/64/找到 openwrt-19.07.3-x86-64-generic.manifest 下载后用记事本打开
+查找kernel - 4.14.180-1-e1dd7676581672f6f0bdb1363506dee1，将e1dd7676581672f6f0bdb1363506dee1复制，拷贝到/usr/lib/opkg/status里面的的对应位置
+从
