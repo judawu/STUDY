@@ -56,3 +56,13 @@ echo 0xDEADBEEF >/etc/config/google_fu_mode
 6. AEAD
 lscpu | grep aes
 
+7. 刷完OpenWrt在浏览器无法访问的解决办法
+opkg update 
+opkg install luci luci-i18n-chinses
+
+等待下载并安装好luci以及luci中文包后、再输入以下命令启用页面、 
+
+/etc/init.d/uhttpd enable 
+/etc/init.d/uhttpd start
+
+现在打开你的浏览器、
