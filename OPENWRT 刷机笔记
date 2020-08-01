@@ -73,5 +73,13 @@ https://downloads.openwrt.org/releases/19.07.3/targets/x86/64/找到 openwrt-19.
 查找kernel - 4.14.180-1-e1dd7676581672f6f0bdb1363506dee1，将e1dd7676581672f6f0bdb1363506dee1复制，拷贝到/usr/lib/opkg/status里面的的对应位置
 
 
-10. L大固件编译里面找不到SSR+的方式
+10. L大固件编译里面添加SSR,Passwal的方式
 在lede里面找到feed.config.default,然后把src-git helloworld https://github.com/fw876/helloworld前面的#去掉
+增加
+src-git lienol https://github.com/Lienol/openwrt-package
+面我们来加载tty228先生的Serverchan。serverchan是一款非常实用的服务器状态监控软件，可以支持微信推送
+git clone https://github.com/tty228/luci-app-serverchan.git
+https://github.com/trojan-gfw/openwrt-trojan
+
+
+
