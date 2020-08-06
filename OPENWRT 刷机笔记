@@ -96,3 +96,12 @@ src/gz openwrt_telephony https://downloads.openwrt.org/releases/18.06.8/packages
 make clean
 make dirclean
 make distclean
+
+
+13. 编译单独的文件SSR+
+git pull
+make /taeget/linux/compile V=s 编译内核
+make 。package/.../luci-app-ssr-plus/compile V=s 
+
+
+
