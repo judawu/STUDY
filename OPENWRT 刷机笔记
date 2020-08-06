@@ -81,5 +81,12 @@ src-git lienol https://github.com/Lienol/openwrt-package
 git clone https://github.com/tty228/luci-app-serverchan.git
 https://github.com/trojan-gfw/openwrt-trojan
 
-
-
+11. 在线安装和离线安装软件包
+将以下设置加到软件包配置的自定义源，然后在线查软件包安装
+src/gz openwrt_core https://downloads.openwrt.org/releases/18.06.8/targets/x86/64/packages
+src/gz openwrt_base https://downloads.openwrt.org/releases/18.06.8/packages/x86_64/base
+src/gz openwrt_luci https://downloads.openwrt.org/releases/18.06.8/packages/x86_64/luci
+src/gz openwrt_packages https://downloads.openwrt.org/releases/18.06.8/packages/x86_64/packages
+src/gz openwrt_routing https://downloads.openwrt.org/releases/18.06.8/packages/x86_64/routing
+src/gz openwrt_telephony https://downloads.openwrt.org/releases/18.06.8/packages/x86_64/telephony
+离线安装下载ipk文件，然后通过opkg install 安装
