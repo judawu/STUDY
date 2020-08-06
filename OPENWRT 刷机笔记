@@ -103,5 +103,11 @@ git pull
 make /taeget/linux/compile V=s 编译内核
 make 。package/.../luci-app-ssr-plus/compile V=s 
 
+14. linux增加用户
+user add user1
+passwd user1
+进入Su
+visudo给User1增加权限
+
 
 
