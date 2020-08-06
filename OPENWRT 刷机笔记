@@ -109,5 +109,8 @@ passwd user1
 进入Su
 visudo给User1增加权限
 
-
+15. Screen 的用法
+sCreen
+CTRL+A 按D返回
+Screen -r + id 恢复 Screen -ls 查看
 
