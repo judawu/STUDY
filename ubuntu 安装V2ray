@@ -1,0 +1,36 @@
+uubuntu从17.10开始，已放弃在/etc/network/interfaces里固定IP的配置，即使配置也不会生效，而是改成netplan方式 ，配置写在/etc/netplan/01-netcfg.yaml或者类似名称的yaml文件
+fconfig，然后修改01-netcfg.yaml，
+sudo vi /etc/netplan/00-installer-config.yaml
+network:
+  ethernets:
+    ens33:     #配置的网卡的名称
+      addresses: [192.168.2.105/24]    #配置的静态ip地址和掩码
+      dhcp4: no    #关闭DHCP，如果需要打开DHCP则写yes
+      optional: true
+      gateway4: 192.168.2.101    #网关地址
+      nameservers:
+         addresses: [192.168.2.101,114.114.114.114]    #DNS服务器地址，多个DNS服务器地址需要用英文逗号分隔开
+  version: 2
+  renderer: networkd    #指定后端采用systemd-networkd或者Network Manager，可不填写则默认使用systemd-workd
+
+
+sudo netplan apply
+修改 /etc/resolv.conf 添加内容 nameserver 8.8.8.8 增加 DNS。
+
+但是，上述方法会在重启后被清除，导致再次开机时需要重新配置，经过查阅网上资料，方法很多种，比较有效的就是，直接卸载掉开机重写该文件的 resolvconf。
+执行命令：sudo apt-get autoremove resolvconf
+
+如果仍需要使用 resolvconf ，则可在卸载后，对 /etc/resolv.conf 加锁后再重新安装该软件，这样 resolvconf 就不会在开机时重写该文件。
+
+# 文件加锁 不可写
+sudo chattr +i /etc/resolv.conf  
+
+# 文件解锁 可写
+sudo chattr -i /etc/resolv.conf
+
+ 安装V2ray，执行curl -x socks5://127.0.0.1:1080 google.com
+ 
+ 用netstat -ln | grep 8080查看端口
+ 配置https://toutyrater.github.io/app/transparent_proxy.html
+
+
