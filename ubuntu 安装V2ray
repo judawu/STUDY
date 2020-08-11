@@ -33,5 +33,6 @@ sudo chattr -i /etc/resolv.conf
 
  用netstat -ln | grep 8080查看端口
  配置https://toutyrater.github.io/app/transparent_proxy.html
+ 可以用一键脚本哦
 
 
