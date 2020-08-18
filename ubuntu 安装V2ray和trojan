@@ -17,6 +17,9 @@ network:
 sudo netplan apply
 修改 /etc/resolv.conf 添加内容 nameserver 8.8.8.8 增加 DNS。
 
+
+
+
 但是，上述方法会在重启后被清除，导致再次开机时需要重新配置，经过查阅网上资料，方法很多种，比较有效的就是，直接卸载掉开机重写该文件的 resolvconf。
 执行命令：sudo apt-get autoremove resolvconf
 
@@ -28,11 +31,24 @@ sudo chattr +i /etc/resolv.conf
 # 文件解锁 可写
 sudo chattr -i /etc/resolv.conf
 
- 安装V2ray，执行curl -x socks5://127.0.0.1:1080 google.com
+
+ 安装v2ray
+sudo bash <(curl -L -s https://install.direct/go.sh)
+安装trojan
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh)"
+ 
+ 执行curl -x socks5://127.0.0.1:1080 google.com
  测试V2ray文件/usr/bin/v2ray# ./v2ray -test -config /etc/v2ray/config.json
+
+
+
+# systemctl  start/stop/status trojan.service
+# 配置/usr/local/etc/trojan/config.json， /usr/local/bin/trojan，我默认开启了客户端开启config.json的端口10010， 然后在v2ray客户端里面通过outbounds socks调用trojan 端口来实现分流
+
 
  用netstat -ln | grep 8080查看端口
  配置https://toutyrater.github.io/app/transparent_proxy.html
  可以用一键脚本哦
+
 
 
