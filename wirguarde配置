@@ -139,12 +139,16 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 #本地路由
 #ip route add <endpoint>/32 via <出口接口的网关IP> dev <出口接口>
-#ip route add default via 192.168.128.1 dev wg0 src 192.168.128.254
+#ip route add default via 192.168.121.1 dev wg0 src 192.168.121.2
 #配置好后，可以在本地 ping 下 8.8.8.8，如果 ping 的通，并且 tracepath 8.8.8.8 的路由里有 192.168.128.1，说明已经通了
  
 # 如果此处没有报错：RTNETLINK answers: Operation not supported，且输入内容差不多，那么说明启动成功了！
 
-
+伪造个不存在的假 IP 然后用 iptables 转发应该可行
+iptables -t nat -A OUTPUT -p udp --dport 53 -d 255.255.233.233 -j DNAT --to-destination 208.67.222.222:5353
+iptables -t nat -A OUTPUT -p tcp --dport 53 -d 255.255.233.233 -j DNAT --to-destination 208.67.222.222:5353
+然后在 /etc/resolv.conf 写入
+nameserver 255.255.233.233
 
 
 
